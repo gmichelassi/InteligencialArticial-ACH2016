@@ -1,4 +1,4 @@
-MonthsSinceLastDonation,Frequency,Monetary,MonthsSinceFirstDonation,label
+MonthsSinceLastDonation,Frequency,Quantity,MonthsSinceFirstDonation,label
 2,50,12500,98,1
 0,13,3250,28,1
 1,16,4000,35,1

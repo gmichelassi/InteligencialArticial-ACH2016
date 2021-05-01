@@ -15,16 +15,20 @@ from sklearn.model_selection import train_test_split
 
 
 def euclidianDistance(v1: np.array, v2: np.array):
+	# Verificação de erro
 	if v1.shape != v2.shape:
 		raise IOError('array shapes are not the same')
 
+	# Norma da diferença entre os dois vetores
 	return np.linalg.norm(v1-v2)
 
 
 def manhattanDistance(v1: np.array, v2: np.array):
+	# Verificação de erro
 	if v1.shape != v2.shape:
 		raise IOError('array shapes are not the same')
 
+	# Somatório do módulo da diferência dos valores na i-ésima posição dos vetores
 	total = 0
 	for index in range(len(v1)):
 		total = total + abs(v1[index] - v2[index])
@@ -66,6 +70,7 @@ def knn(dataset: pd.DataFrame, query: np.array, k: int = 1, distance: str = 'eu'
 	U = np.unique(y)
 	votes = np.zeros(len(U))
 
+	# Somar os votos para cada label
 	for i in range(len(U)):
 		votes[i] = sum(1 for j in ids if U[i] == j)
 
@@ -77,20 +82,26 @@ if __name__ == '__main__':
 	data = pd.read_csv('./blood-transfusion/transfusion.csv')
 	features = data.columns[0:len(data.columns)-1]
 
+	# HISTOGRAMA
 	data[features].hist(figsize=(10, 4))
 	plt.show()
 
+	# MATRIZ DE CORRELAÇÃO
 	corr_matrix = data[features].corr()
 	sns.heatmap(corr_matrix, cmap='YlGnBu', linewidths=.5, linecolor='white', xticklabels=['R', 'F', 'M', 'T'], yticklabels=['R', 'F', 'M', 'T'])
 
-	sns.pairplot(data[['Frequency', 'Monetary']])
+	# CORRELAÇÃO ENTRE FREQUENCIA E QUANTIDADE DOADA
+	sns.pairplot(data[['Frequency', 'Quantity']])
 
+	# RELAÇÃO ENTRE A FREQUENCIA DE DOAÇÃO E MESES DESDE A PRIMEIRA DOAÇÃO
 	sns.lmplot('Frequency', 'MonthsSinceFirstDonation', data=data, hue='label', fit_reg=False)
 
+	# RELAÇÃO ENTRE A FREQUENCIA DE DOAÇÃO E MESES DESDE A DOAÇÃO MAIS RECENTE
 	sns.lmplot('Frequency', 'MonthsSinceLastDonation', data=data, hue='label', fit_reg=False)
 
 	plt.show()
 
+	# DIVIDIR CONJUNTO DE DADOS EM TREINO E TESTE
 	data_train, data_test = train_test_split(data, test_size=0.2, random_state=707878)
 
 	print(f'train data has shape {data_train.shape}')
@@ -103,7 +114,8 @@ if __name__ == '__main__':
 		true_label = linha['label']
 		target = linha.drop('label')
 
-		classification, num_votes = knn(data_train, target.values, k=10)
+		# VALIDAR ALGORITMO PARA CADA LINHA DO CONJUNTO DE TESTE
+		classification, num_votes = knn(data_train, target.values, k=10, distance='man')
 		print(f'Class {classification} with {num_votes} votes for {target.values}')
 		print(f'Real class: {true_label}')
 
@@ -118,6 +130,7 @@ if __name__ == '__main__':
 		elif true_label == 1 and classification == 0:
 			fn = fn + 1
 
+		# CALCULAR ACUŔACIA
 		current_accuracy = (tp + tn)/(tp + tn + fp + fn)
 		accuracy_overtime.append(current_accuracy)
 
