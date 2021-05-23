@@ -79,7 +79,7 @@ def knn(dataset: pd.DataFrame, query: np.array, k: int = 1, distance: str = 'eu'
 
 
 if __name__ == '__main__':
-	data = pd.read_csv('./blood-transfusion/transfusion.csv')
+	data = pd.read_csv('transfusion/transfusion.csv')
 	features = data.columns[0:len(data.columns)-1]
 
 	# HISTOGRAMA
@@ -130,7 +130,7 @@ if __name__ == '__main__':
 		elif true_label == 1 and classification == 0:
 			fn = fn + 1
 
-		# CALCULAR ACUŔACIA
+		# CALCULAR ACURÁCIA
 		current_accuracy = (tp + tn)/(tp + tn + fp + fn)
 		accuracy_overtime.append(current_accuracy)
 

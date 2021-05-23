@@ -1,11 +1,3 @@
-"""
-1. Escolher um dos seguintes 3 conjuntos de dados, o qual será utilizado no EP1.
-2. Fazer a leitura do conjunto de dados  escolhido usando  bibliotecas prontas ou funções das linguagens de programação Python ou R, por exemplo a biblioteca Pandas do Python.
-3. Verificar se existem dados faltantes no conjunto de dados escolhido, caso sim, pesquise como lidar com eles.
-4. Se o conjunto de dados escolhido é desbalanceado, aplique alguma técnica de rebalanceamento existente nas bibliotecas do Python ou R.
-5. Aplicar alguma técnica de normalização nos dados.
-6. Fazer uma análise exploratória do conjunto de dados escolhido (calcular médias, medianas, variâncias, min, max)
-"""
 import pandas as pd
 import numpy as np
 from imblearn.over_sampling import SMOTE
